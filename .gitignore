@@ -1,2 +1,4 @@
 # ignore plugins (vim-plug will download them)
 vim/plugged
+.netrwhist
+*.swp
