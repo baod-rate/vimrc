@@ -2,6 +2,8 @@
 " System configuraiton
 " ==============================================================================
 scriptencoding utf-8
+set encoding=utf-8
+set fileencoding=utf-8
 if !exists("g:os")
     if has("win64") || has("win32") || has("win16")
         let g:os = "Windows"
@@ -73,7 +75,9 @@ if has("gui_running")
         set guifont=Menlo\ Regular:h14
     elseif g:os == "Windows"
         " set guifont=Fantasque\ Sans\ Mono:h11
-        set guifont=Iosevka:h11
+        " Windows GVim doesn't allow non-monospace fonts
+        " set guifont=Iosevka:h12
+        set guifont=Iosevka\ Term:h12,Consolas:h12,Fantasque\ Sans\ Mono:h12
     endif
 endif
 " GUI settings
@@ -84,9 +88,19 @@ set guioptions-=r  " scrollbar
 set guioptions-=e  " tab bar
 " Display whitespace
 " ------------------
-set showbreak=↪\ 
-" ‣ · ↲ ⏎ ⟨⟩ «» ¬ ¶ ␣ …
-set listchars=tab:→\ ,nbsp:␣,trail:•,precedes:⟨,extends:⟩
+if g:os == "Windows"
+    " Windows doesn't like unicode characters... use ascii instead
+    " These are the same listchars provided by TPope's Vim-Sensible
+    set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+    " Windows' gvim doesn't open as unicde, so this will fail:
+    " set showbreak=»
+    " Instead, use this:
+    let &showbreak="\u00bb\ "
+else
+    " alternative characters: ‣ · ↲ ⏎ ⟨⟩ «» ¬ ¶ ␣ …
+    set listchars=tab:→\ ,trail:•,precedes:⟨,extends:⟩
+    set showbreak=↪\ 
+endif
 set list
 
 " ==============================================================================
