@@ -84,7 +84,10 @@ set guioptions-=r  " scrollbar
 set guioptions-=e  " tab bar
 " Display whitespace
 " ------------------
-set listchars=tab:»\ ,trail:¬,nbsp:·
+set showbreak=↪\ 
+" ‣ · ↲ ⏎ ⟨⟩ «» ¬ ¶ ␣ …
+set listchars=tab:→\ ,nbsp:␣,trail:•,precedes:⟨,extends:⟩
+set list
 
 " ==============================================================================
 " Behavior
