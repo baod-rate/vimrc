@@ -12,13 +12,21 @@ endif
 " ==============================================================================
 call plug#begin('~/.vim/plugged') " Make sure you use single quotes
     " Tools
-    Plug 'vimwiki/vimwiki'
-    Plug 'mattn/calendar-vim'
+    Plug 'vimwiki/vimwiki'              " Note taking
+    Plug 'mattn/calendar-vim'           " Calendar; vimwiki uses this for the diary
     " Colorschemes
     Plug 'nightsense/vimspectr'
     Plug 'junegunn/seoul256.vim'
     " Display
-    Plug 'itchyny/lightline.vim'
+    Plug 'itchyny/lightline.vim'        " Statusbar
+    " Utilities
+    Plug 'tpope/vim-fugitive'           " Git wrapper; lightline uses this
+    " Filetypes
+    Plug 'tpope/vim-markdown'           " Markdown files
+    " Editing
+    Plug 'AndrewRadev/splitjoin.vim'    " Transition Single<->Multi-line code
+    " Misc
+    Plug 'tpope/vim-sensible'           " 'Defaults everyone can agree on'
 call plug#end()
 
 " ==============================================================================
@@ -70,10 +78,23 @@ set shiftwidth=4  " indent at 4 spaces
 set smartindent
 
 " ==============================================================================
-" Controls
+" Mappings
 " ==============================================================================
-let mapleader="\'"
+" Leader
+" ------
+let mapleader="\<Space>"
+" Window controls
+" ---------------
+nnoremap <silent> \ <C-W>
+" Folding
+" -------
+nnoremap <leader><Space> za
+" Enable mouse in terminal mode
+" -----------------------------
 set mouse=a
+" Make Y behave like D and C
+" --------------------------
+:map Y y$
 " Insert time
 " -----------
 nmap <F3> i<C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR><Esc>
@@ -88,20 +109,6 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown  " Vim-markdown
 " ==============================================================================
 " Plugin oonfiguration
 " ==============================================================================
-call plug#begin('~/.vim/plugged') " Make sure you use single quotes
-    " Tools
-    Plug 'vimwiki/vimwiki'         " Note taking
-    Plug 'mattn/calendar-vim'      " Calendar; vimwiki uses this for the diary
-    " Colorschemes
-    Plug 'nightsense/vimspectr'
-    Plug 'junegunn/seoul256.vim'
-    " Display
-    Plug 'itchyny/lightline.vim'   " Statusbar
-    " Utilities
-    Plug 'tpope/vim-fugitive'      " Git wrapper; lightline uses this
-    " Filetypes
-    Plug 'tpope/vim-markdown'      " Markdown files
-call plug#end()
 " -------
 " VimWiki
 " -------
