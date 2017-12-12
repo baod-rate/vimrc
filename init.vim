@@ -12,14 +12,21 @@ if !exists("g:os")
     endif
 endif
 
-if g:os == "Windows"
+if g:os == "Windows" && !has('nvim')
     " Make windows use ~/.vim too, I don't want to use _vimfiles
     set runtimepath^=~/.vim
     cd ~
 endif
 
-" use this file's directory as the parent for the plugin dir
-let g:plug_dir = resolve(expand('<sfile>:h')) . '/plugged'
+if has('nvim') || g:os != "Windows"
+    " use this file's directory as the parent for the plugin dir
+    let g:plug_dir = fnamemodify(resolve(expand('<sfile>:p')), ':h') . '/plugged'
+else
+    " resolve() works correct in Windows Neovim but not Windows Vim:
+    " https://github.com/vim/vim/issues/147
+    " use ~\.vim\plugged instead
+    let g:plug_dir = $HOME . '\\.vim\\plugged'
+endif
 
 " ==============================================================================
 " Plugins
@@ -27,7 +34,7 @@ let g:plug_dir = resolve(expand('<sfile>:h')) . '/plugged'
 call plug#begin(g:plug_dir) " Make sure you use single quotes
     " Tools
     Plug 'vimwiki/vimwiki'              " Note taking
-    Plug 'mattn/calendar-vim'           " Calendar; vimwiki uses this for the diary
+    Plug 'mattn/calendar-vim'           " Calendar; vimwiki uses for the diary
     " Colorschemes
     Plug 'nightsense/vimspectr'
     Plug 'junegunn/seoul256.vim'
