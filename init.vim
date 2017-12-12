@@ -18,10 +18,13 @@ if g:os == "Windows"
     cd ~
 endif
 
+" use this file's directory as the parent for the plugin dir
+let g:plug_dir = resolve(expand('<sfile>:h')) . '/plugged'
+
 " ==============================================================================
 " Plugins
 " ==============================================================================
-call plug#begin('~/.vim/plugged') " Make sure you use single quotes
+call plug#begin(g:plug_dir) " Make sure you use single quotes
     " Tools
     Plug 'vimwiki/vimwiki'              " Note taking
     Plug 'mattn/calendar-vim'           " Calendar; vimwiki uses this for the diary
@@ -40,10 +43,15 @@ call plug#begin('~/.vim/plugged') " Make sure you use single quotes
     " Editing
     Plug 'vim-syntastic/syntastic'      " Syntax checking
     Plug 'AndrewRadev/splitjoin.vim'    " Transition Single<->Multi-line code
-    " Language support
-    Plug 'OmniSharp/omnisharp-vim'      " Intellisense and more for C#
     " Misc
     Plug 'tpope/vim-sensible'           " 'Defaults everyone can agree on'
+
+    if has('nvim')                      " Neovim specific
+        " None for now
+    else                                " Vim specific
+        " Language support
+        Plug 'OmniSharp/omnisharp-vim'  " Intellisense and more for C#
+    endif
 call plug#end()
 
 " ==============================================================================
@@ -66,8 +74,13 @@ set number relativenumber
 "   Default: 237
 let g:seoul256_background = 235
 colorscheme seoul256
+" GUI settings
+" ------------
+set guioptions-=m  " menu bar
+set guioptions-=T  " toolbar
+set guioptions-=r  " scrollbar
+set guioptions-=e  " tab bar
 " Font
-" ----
 if has("gui_running")
     if g:os == "Linux"
         set guifont=Iosevka\ Regular\ 13
@@ -80,14 +93,7 @@ if has("gui_running")
         set guifont=Iosevka\ Term:h12,Consolas:h12,Fantasque\ Sans\ Mono:h12
     endif
 endif
-" GUI settings
-" ------------
-set guioptions-=m  " menu bar
-set guioptions-=T  " toolbar
-set guioptions-=r  " scrollbar
-set guioptions-=e  " tab bar
 " Display whitespace
-" ------------------
 if g:os == "Windows"
     " Windows doesn't like unicode characters... use ascii instead
     " These are the same listchars provided by TPope's Vim-Sensible
