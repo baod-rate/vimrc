@@ -81,8 +81,13 @@ set number relativenumber
 "   Default: 237
 let g:seoul256_background = 235
 colorscheme seoul256
+" Misc display settings
+" ---------------------
+set concealcursor = '' " don't conceal the cursor line
+
+" ==============================================================================
 " GUI settings
-" ------------
+" ==============================================================================
 set guioptions-=m  " menu bar
 set guioptions-=T  " toolbar
 set guioptions-=r  " scrollbar
@@ -168,23 +173,43 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown  " Vim-markdown
 " -------
 " VimWiki
 " -------
+let work_wiki = {}
+let ftdna_wiki = {}
+let qaautomation_wiki = {}
+let personal_wiki = {}
 if g:os == 'Windows'
-    let g:vimwiki_list = [
-                            \{'path': 'H:/work.wiki',
-                            \'syntax' : 'markdown',
-                            \'ext': '.md'}
-                    \]
+    let work_wiki.path = 'H:\work.wiki'
+    let ftdna_wiki.path = 'H:\ftdna-qa-automation.wiki'
+    let qaautomation_wiki.path = 'H:\qa-automation.wiki'
+    let personal_wiki.path = 'H:\personal.wiki'
 elseif g:os == 'Linux'
-    let g:vimwiki_list = [
-                            \{'path': '/mnt/h/work.wiki',
-                            \'syntax' : 'markdown',
-                            \'ext': '.md'}
-                    \]
+    let work_wiki.path =  '/mnt/h/work.wiki'
+    let ftdna_wiki.path = '/mnt/h/ftdna-qa-automation.wiki'
+    let personal_wiki.path = '/mnt/h/personal.wiki'
 endif
+let work_wiki.syntax = 'markdown'
+let work_wiki.ext = '.md'
+let personal_wiki.syntax = 'markdown'
+let personal_wiki.ext = '.md'
+let ftdna_wiki.syntax = 'markdown'
+let ftdna_wiki.ext = '.md'
+let ftdna_wiki.index = 'home'
+let qaautomation_wiki.syntax = 'markdown'
+let qaautomation_wiki.ext = '.md'
+let qaautomation_wiki.index = 'home'
+
+let g:vimwiki_list = [work_wiki, qaautomation_wiki, ftdna_wiki, personal_wiki]
+
+let g:vimwiki_conceallevel = 2
+
 autocmd FileType vimwiki map <leader>d :VimwikiMakeDiaryNote<CR>
 autocmd FileType vimwiki map <leader>dg :VimwikiDiaryGenerateLinks<CR>
 autocmd FileType vimwiki map <leader>di :VimwikiDiaryIndex<CR>
 autocmd FileType vimwiki map <leader>c :call ToggleCalendar()<CR>
+
+" indentLine overrides conceal settings and interferes with vimwiki
+autocmd FileType vimwiki let g:indentLine_concealcursor = ''
+autocmd FileType vimwiki let g:indentLine_conceallevel = 2
 " --------
 " Calendar
 " --------
