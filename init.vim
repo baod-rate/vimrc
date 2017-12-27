@@ -178,14 +178,14 @@ let ftdna_wiki = {}
 let qaautomation_wiki = {}
 let personal_wiki = {}
 if g:os == 'Windows'
-    let work_wiki.path = 'H:\work.wiki'
-    let ftdna_wiki.path = 'H:\ftdna-qa-automation.wiki'
-    let qaautomation_wiki.path = 'H:\qa-automation.wiki'
-    let personal_wiki.path = 'H:\personal.wiki'
+    let work_wiki.path = 'H:\wiki\work.wiki'
+    let ftdna_wiki.path = 'H:\wiki\ftdna-qa-automation.wiki'
+    let qaautomation_wiki.path = 'H:\wiki\qa-automation.wiki'
+    let personal_wiki.path = 'H:\wiki\personal.wiki'
 elseif g:os == 'Linux'
-    let work_wiki.path =  '/mnt/h/work.wiki'
-    let ftdna_wiki.path = '/mnt/h/ftdna-qa-automation.wiki'
-    let personal_wiki.path = '/mnt/h/personal.wiki'
+    let work_wiki.path =  '/mnt/h/wiki/work.wiki'
+    let ftdna_wiki.path = '/mnt/h/wiki/ftdna-qa-automation.wiki'
+    let personal_wiki.path = '/mnt/h/wiki/personal.wiki'
 endif
 let work_wiki.syntax = 'markdown'
 let work_wiki.ext = '.md'
