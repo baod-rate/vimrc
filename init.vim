@@ -33,7 +33,7 @@ endif
 " ==============================================================================
 call plug#begin(g:plug_dir) " Make sure you use single quotes
     " Tools
-    Plug 'vimwiki/vimwiki'              " Note taking
+    Plug 'vimwiki/vimwiki', { 'branch': 'dev' } " Note taking
     Plug 'mattn/calendar-vim'           " Calendar; vimwiki uses for the diary
     " Colorschemes
     Plug 'nightsense/vimspectr'
@@ -83,7 +83,7 @@ let g:seoul256_background = 235
 colorscheme seoul256
 " Misc display settings
 " ---------------------
-set concealcursor = '' " don't conceal the cursor line
+" set concealcursor = '' " don't conceal the cursor line
 
 " ==============================================================================
 " GUI settings
@@ -102,7 +102,7 @@ if has("gui_running")
         " set guifont=Fantasque\ Sans\ Mono:h11
         " Windows GVim doesn't allow non-monospace fonts
         " set guifont=Iosevka:h12
-        set guifont=Iosevka\ Term:h12,Consolas:h12,Fantasque\ Sans\ Mono:h12
+        set guifont=Iosevka\ Term:h11,Consolas:h11,Fantasque\ Sans\ Mono:h11
     endif
 endif
 " Display whitespace
@@ -156,10 +156,10 @@ set mouse=a
 " Make Y behave like D and C
 " --------------------------
 :map Y y$
-" Insert time
-" -----------
-nmap <F3> i<C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR><Esc>
-imap <F3> <C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR>
+" Insert timestamp
+" ----------------
+nmap <F3> i<C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR><Esc>yyp0v$r=o<Esc>
+imap <F3> <C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR><Esc>yyp0v$r=o<Esc>
 
 " ==============================================================================
 " Filetypes
@@ -174,23 +174,26 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown  " Vim-markdown
 " VimWiki
 " -------
 let work_wiki = {}
+let old_work_wiki = {}
 let ftdna_wiki = {}
 let qaautomation_wiki = {}
 let personal_wiki = {}
 if g:os == 'Windows'
-    let work_wiki.path = 'H:\wiki\work.wiki'
-    let ftdna_wiki.path = 'H:\wiki\ftdna-qa-automation.wiki'
-    let qaautomation_wiki.path = 'H:\wiki\qa-automation.wiki'
-    let personal_wiki.path = 'H:\wiki\personal.wiki'
+    let work_wiki.path = 'H:\wiki'
+    let old_work_wiki.path = 'H:\wikis\work.wiki'
+    let ftdna_wiki.path = 'H:\wikis\ftdna-qa-automation.wiki'
+    let qaautomation_wiki.path = 'H:\wikis\qa-automation.wiki'
+    let personal_wiki.path = 'C:\Users\BaoT\vimwiki'
 elseif g:os == 'Linux'
-    let work_wiki.path =  '/mnt/h/wiki/work.wiki'
-    let ftdna_wiki.path = '/mnt/h/wiki/ftdna-qa-automation.wiki'
-    let personal_wiki.path = '/mnt/h/wiki/personal.wiki'
+    let work_wiki.path =  '/mnt/h/wiki'
+    let old_work_wiki.path =  '/mnt/h/wikis/work.wiki'
+    let ftdna_wiki.path = '/mnt/h/wikis/ftdna-qa-automation.wiki'
+    let personal_wiki.path = '/mnt/c/users/baot/vimwiki'
 endif
-let work_wiki.syntax = 'markdown'
-let work_wiki.ext = '.md'
-let personal_wiki.syntax = 'markdown'
-let personal_wiki.ext = '.md'
+let old_work_wiki.syntax = 'markdown'
+let old_work_wiki.ext = '.md'
+" let personal_wiki.syntax = 'markdown'
+" let personal_wiki.ext = '.md'
 let ftdna_wiki.syntax = 'markdown'
 let ftdna_wiki.ext = '.md'
 let ftdna_wiki.index = 'home'
@@ -198,7 +201,7 @@ let qaautomation_wiki.syntax = 'markdown'
 let qaautomation_wiki.ext = '.md'
 let qaautomation_wiki.index = 'home'
 
-let g:vimwiki_list = [work_wiki, qaautomation_wiki, ftdna_wiki, personal_wiki]
+let g:vimwiki_list = [work_wiki, personal_wiki]
 
 let g:vimwiki_conceallevel = 2
 
@@ -206,7 +209,10 @@ autocmd FileType vimwiki map <leader>d :VimwikiMakeDiaryNote<CR>
 autocmd FileType vimwiki map <leader>dg :VimwikiDiaryGenerateLinks<CR>
 autocmd FileType vimwiki map <leader>di :VimwikiDiaryIndex<CR>
 autocmd FileType vimwiki map <leader>c :call ToggleCalendar()<CR>
-
+autocmd Filetype vimwiki map >> <Plug>VimwikiIncreaseLvlSingleItem
+" autocmd Filetype vimwiki map >>> <Plug>VimwikiIncreaseLvlWholeItem
+autocmd Filetype vimwiki map << <Plug>VimwikiDecreaseLvlSingleItem
+" autocmd Filetype vimwiki map <<< <Plug>VimwikiDecreaseLvlWholeItem
 " indentLine overrides conceal settings and interferes with vimwiki
 autocmd FileType vimwiki let g:indentLine_concealcursor = ''
 autocmd FileType vimwiki let g:indentLine_conceallevel = 2
